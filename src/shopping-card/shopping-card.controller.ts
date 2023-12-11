@@ -15,10 +15,9 @@ import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
 import {
   AddToCardResponse,
   GetAllResponse,
+  GetAllShoppingCart,
   OrderRequest,
   OrderResponse,
-  StatusRequest,
-  StatusResponse,
   TotalPriceRequest,
   TotalPriceResponse,
   UpdateCountRequest,
@@ -36,15 +35,22 @@ export class ShoppingCardController {
     return this.shoppingCardService.findAll(userId);
   }
 
+  @ApiOkResponse({ type: GetAllShoppingCart })
+  @UseGuards(AuthenticatedGuard)
+  @Patch('/order-all')
+  getOrder() {
+    return this.shoppingCardService.findOrder();
+  }
+
   @ApiOkResponse({ type: OrderResponse })
   @ApiBody({ type: OrderRequest })
   @UseGuards(AuthenticatedGuard)
-  @Patch('/admin/order/:id')
-  order(
-    @Body() order: number,
+  @Post('/admin/order/:id')
+  updateCard(
+    @Body() date: number,
     @Param('id') userId: number,
   ) {
-    return this.shoppingCardService.order(order, userId);
+    return this.shoppingCardService.updateCardForAdmin(date, userId);
   }
 
   // @ApiOkResponse({ type: StatusResponse })

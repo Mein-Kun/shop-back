@@ -23,7 +23,7 @@ export class ShoppingCard extends Model {
   @Column
   image: string;
 
-  @Column({ defaultValue: 'Новый заказ' })
+  @Column({ defaultValue: null })
   status: string;
 
   @Column({ defaultValue: 0 })

@@ -12,7 +12,7 @@ export class PaymentService {
         url: 'https://api.yookassa.ru/v3/payments',
         headers: {
           'Content-Type': 'application/json',
-          'Idempotence-Key': Date.now(),
+          'Idempotence-Key': makePaymentDto.order,
         },
         auth: {
           username: '245474',

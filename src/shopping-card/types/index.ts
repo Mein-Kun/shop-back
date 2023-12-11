@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 
 class ShoppingCartItem {
@@ -40,7 +41,7 @@ class ShoppingCartItem {
   @ApiProperty({ example: 'Новый заказ' })
   status: string;
 
-  @ApiProperty({ example: 33465734587 })
+  @ApiProperty({ example: 1697615075142 })
   order: number;
 
   @ApiProperty({ example: '2023-03-19T12:45:51.240Z' })
@@ -48,6 +49,10 @@ class ShoppingCartItem {
 
   @ApiProperty({ example: '2023-03-19T12:45:51.240Z' })
   updatedAt: string;
+}
+export class GetAllShoppingCart extends ShoppingCartItem{
+  @ApiProperty({ example: 'Новый заказ' })
+  status: string;
 }
 
 export class GetAllResponse extends ShoppingCartItem {}
@@ -68,19 +73,24 @@ export class TotalPriceRequest {
   @ApiProperty({ example: 1000 })
   total_price: number;
 }
-export class StatusResponse {
-  @ApiProperty({ example: 'Новый заказ' })
-  status: string;
-}
-export class StatusRequest {
-  @ApiProperty({ example: 'Новый заказ' })
-  status: string;
-}
+// export class StatusResponse {
+//   @ApiProperty({ example: 'Новый заказ' })
+//   status: string;
+// }
+// export class StatusRequest {
+//   @ApiProperty({ example: 'Новый заказ' })
+//   status: string;
+// }
 export class OrderResponse {
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: 1697615075142 })
   order: number;
+  @ApiProperty({ example: 'Новый заказ' })
+  status: string;
 }
+
 export class OrderRequest {
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: 1697615075142 })
   order: number;
+  @ApiProperty({ example: 'Новый заказ' })
+  status: string;
 }

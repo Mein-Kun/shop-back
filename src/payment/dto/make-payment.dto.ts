@@ -9,4 +9,8 @@ export class MakePaymentDto {
   @ApiProperty({ example: 'заказ №1' })
   @IsOptional()
   readonly description?: string;
+
+  @ApiProperty({ example: 100 })
+  @IsNotEmpty()
+  readonly order: number;
 }

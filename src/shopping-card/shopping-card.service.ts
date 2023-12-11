@@ -4,9 +4,6 @@ import { ShoppingCard } from './shopping-card.modal';
 import { UsersService } from 'src/users/users.service';
 import { AvtoPartsService } from 'src/avto-parts/avto-parts.service';
 import { AddToCardDto } from './dto/add-to-card.dto';
-import { CardAdminDto } from './dto/card-admin.dto';
-// import { CardAdminDto } from './dto/card-admin.dto';
-
 @Injectable()
 export class ShoppingCardService {
   constructor(
@@ -17,12 +14,18 @@ export class ShoppingCardService {
   ) {}
 
   async findAll(userId: number): Promise<ShoppingCard[]> {
-    return this.shoppingCardModel.findAll({ where: { userId } });
+    const cardAll = this.shoppingCardModel.findAll({ where: { userId, status: null } });
+
+    return cardAll;
   }
 
-  // async findOfAdmin(order: number): Promise<ShoppingCard[]> {
-  //   return this.shoppingCardModel.findAll({ where: { order } });
-  // }
+  async findOrder(): Promise<ShoppingCard[]> {
+    const cardAll = this.shoppingCardModel.findAll({
+      where: { status: 'Новый заказ' },
+    });
+
+    return cardAll;
+  }
 
   async add(addToCardDto: AddToCardDto) {
     const card = new ShoppingCard();
@@ -37,7 +40,7 @@ export class ShoppingCardService {
     card.parts_name = part.parts_name;
     card.price = part.price;
     card.in_stock = part.in_stock;
-    card.image = JSON.parse(part.images)[0];
+    card.image = part.images;
     card.name = part.name;
     card.total_price = part.price;
 
@@ -70,42 +73,19 @@ export class ShoppingCardService {
     await this.shoppingCardModel.destroy({ where: { userId } });
   }
 
-  // async orderStatus(order: number, cardAdminDto: CardAdminDto) {
-  //   const card = await this.shoppingCardModel.findOne({
-  //     where: { order }
-  //   });
-  //   // const part = await this.shoppingCardModel.findOne(cardAdminDto.status);
-
-  //   // card.status = part.status
-
-  //   return card.save();
-  // }
-
-  async order(order: number, userId: number): Promise<ShoppingCard[]> {
+  async updateCardForAdmin(
+    order: number,
+    userId: number,
+  ): Promise<ShoppingCard[]> {
     const card = await this.shoppingCardModel.findAll({
-      where: { userId }
+      where: { userId, status: null },
     });
 
-    // const user = await this.shoppingCardModel.findOne({
-    //   where: { userId: cardAdminDto.userId },
-    // });
-
-    // const date = Date.now()
-
-    try {
-      card.forEach((item) => {
-        item.order = order
-        item.userId = 0
-        item.save()
-      })
-    } catch (error) {
-      console.log((error as Error).message)}
-
-    // card.forEach((item) => {
-    //   item.order = order
-    //   item.userId = 0
-    //   item.save()
-    // })
+    card.forEach(async (item) => {
+      item.order = order['order'];
+      item.status = 'Новый заказ';
+      await item.save();
+    });
 
     return card;
   }

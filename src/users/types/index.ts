@@ -61,5 +61,5 @@ export class SignupResponse {
   updatedAt: string;
 
   @ApiProperty({ example: '2023-03-17T17:23:33.502Z' })
-  sreatedAt: string;
+  createdAt: string;
 }
