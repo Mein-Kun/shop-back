@@ -19,7 +19,7 @@ async function bootstrap() {
   app.enableCors({
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE"],
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://landmotors-client.onrender.com', 'https://landmotors-server.onrender.com/'],
   });
 
   const config = new DocumentBuilder()
