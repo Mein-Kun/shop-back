@@ -25,7 +25,7 @@ export class SequelizeConfigService implements SequelizeOptionsFactory {
       username,
       password,
       database,
-      models: [Users, AvtoParts],
+      models: [Users, AvtoParts, ShoppingCard],
       autoLoadModels: true,
       synchronize: true,
       define: {
