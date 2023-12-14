@@ -81,7 +81,7 @@ describe('Auth service', () => {
 
     const loginCheck = await request(app.getHttpServer())
       .get('/users/login-check')
-      .set('Cookie', login.headers['set-cookie']);
+      .set('Cookie', login.headers['Set-Cookie']);
 
     expect(loginCheck.body.username).toBe(mokedUser.username);
     expect(loginCheck.body.email).toBe(mokedUser.email);
