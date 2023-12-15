@@ -13,7 +13,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class LocalAuthGuard implements CanActivate {
+export class AuthenticatedGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
