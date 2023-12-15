@@ -45,7 +45,7 @@ export class UsersController {
 
   @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(new LocalAuthGuard())
   loginCheck(@Request() req) {
     return req.user;
   }
