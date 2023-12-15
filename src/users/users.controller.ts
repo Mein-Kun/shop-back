@@ -37,7 +37,7 @@ export class UsersController {
   @ApiBody({ type: LoginUserRequest })
   @ApiOkResponse({ type: LoginUserResponse })
   @Post('/login')
-  @UseGuards(new LocalAuthGuard())
+  @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   login(@Request() req) {
     return { user: req.user, msg: 'Logged in' };
@@ -45,7 +45,7 @@ export class UsersController {
 
   @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
-  @UseGuards(new LocalAuthGuard())
+  @UseGuards(AuthenticatedGuard)
   loginCheck(@Request() req) {
     return req.user;
   }
