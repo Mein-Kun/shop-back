@@ -3,11 +3,9 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AuthenticatedGuard } from './auth/authentificated.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalGuards(new AuthenticatedGuard());
   app.use(
     session({
       secret: 'keyword',
