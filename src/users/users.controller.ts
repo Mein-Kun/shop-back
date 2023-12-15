@@ -37,7 +37,7 @@ export class UsersController {
   @ApiBody({ type: LoginUserRequest })
   @ApiOkResponse({ type: LoginUserResponse })
   @Post('/login')
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(new LocalAuthGuard())
   @HttpCode(HttpStatus.OK)
   login(@Request() req) {
     return { user: req.user, msg: 'Logged in' };
