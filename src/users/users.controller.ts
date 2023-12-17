@@ -41,6 +41,7 @@ export class UsersController {
   @Post('/login')
   @UseGuards(LocalAuthGuard)
   @UseInterceptors(LoggingInterceptor)
+  @Header('Set-Cookie', 'SameSite=None')
   @HttpCode(HttpStatus.OK)
   login(@Request() req) {
     return { user: req.user, msg: 'Logged in' };
