@@ -8,6 +8,7 @@ import {
   UseGuards,
   Request,
   Get,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,6 +22,7 @@ import {
   LogoutUserResponse,
   SignupResponse,
 } from './types';
+import { LoggingInterceptor } from 'src/auth/logging.interceptor';
 
 @Controller('users')
 export class UsersController {
@@ -38,6 +40,7 @@ export class UsersController {
   @ApiOkResponse({ type: LoginUserResponse })
   @Post('/login')
   @UseGuards(LocalAuthGuard)
+  @UseInterceptors(LoggingInterceptor)
   @HttpCode(HttpStatus.OK)
   login(@Request() req) {
     return { user: req.user, msg: 'Logged in' };
@@ -46,6 +49,7 @@ export class UsersController {
   @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
   @UseGuards(AuthenticatedGuard)
+  @UseInterceptors(LoggingInterceptor)
   loginCheck(@Request() req) {
     return req.user;
   }
