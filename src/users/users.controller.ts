@@ -40,7 +40,7 @@ export class UsersController {
   @ApiOkResponse({ type: LoginUserResponse })
   @Post('/login')
   @UseGuards(LocalAuthGuard)
-  @UseInterceptors(LoggingInterceptor)
+  // @UseInterceptors(LoggingInterceptor)
   // @Header('Set-Cookie', 'SameSite=None')
   @HttpCode(HttpStatus.OK)
   login(@Request() req) {
@@ -50,7 +50,7 @@ export class UsersController {
   @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
   @UseGuards(AuthenticatedGuard)
-  @UseInterceptors(LoggingInterceptor)
+  // @UseInterceptors(LoggingInterceptor)
   loginCheck(@Request() req) {
     return req.user;
   }
