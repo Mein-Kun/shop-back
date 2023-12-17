@@ -49,7 +49,7 @@ export class UsersController {
   @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
   @UseGuards(AuthenticatedGuard)
-  @UseInterceptors(LoggingInterceptor)
+  // @UseInterceptors(LoggingInterceptor)
   loginCheck(@Request() req) {
     return req.user;
   }
