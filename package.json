@@ -40,6 +40,8 @@
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "express-session": "^1.17.3",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
     "mysql2": "^3.5.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
@@ -62,6 +64,7 @@
     "@types/passport-jwt": "^3.0.13",
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^2.0.11",
+    "@types/ws": "^8.5.10",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
@@ -75,7 +78,9 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.2.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "webpack": "^5.89.0",
+    "webpack-dev-server": "^4.15.1"
   },
   "jest": {
     "moduleFileExtensions": [

@@ -11,28 +11,28 @@ export class AuthService {
     const user = await this.userService.findOne({ where: { username } });
     
 
-    // if (!user) {
-    //   throw new UnauthorizedException('Invalid credentials');
-    // }
-
-    // const passwordValid = await bcrypt.compare(password, user.password);
-
-    // if (!passwordValid) {
-    //   throw new UnauthorizedException('Invalid credentials');
-    // }
-
-    // if ((user && passwordValid)) {
-    //   return user
-    // }
-
-    // return null;
-
-
-    if (user && user.password === password) {
-      const { password, ...result } = user;
-      return result;
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
     }
+
+    const passwordValid = await bcrypt.compare(password, user.password);
+
+    if (!passwordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if ((user && passwordValid)) {
+      return user
+    }
+
     return null;
+
+
+    // if (user && user.password === password) {
+    //   const { password, ...result } = user;
+    //   return result;
+    // }
+    // return null;
   }
   async login(user: any) {
     const payload = { username: user.username, sub: user.userid };
