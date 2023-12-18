@@ -23,10 +23,13 @@ import {
   SignupResponse,
 } from './types';
 import { LoggingInterceptor } from 'src/auth/logging.interceptor';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Public } from 'src/auth/constant';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly userService: UsersService, private authService: AuthService) {}
 
   @ApiOkResponse({ type: SignupResponse })
   @Post('/singup')
@@ -43,12 +46,19 @@ export class UsersController {
   // @UseInterceptors(LoggingInterceptor)
   // @Header('Set-Cookie', 'SameSite=None')
   @HttpCode(HttpStatus.OK)
-  login(@Request() req) {
-    return { user: req.user, msg: 'Logged in' };
+  async login(@Request() req) {
+    return this.authService.login(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 
   @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
+  @Public()
   @UseGuards(AuthenticatedGuard)
   // @UseInterceptors(LoggingInterceptor)
   loginCheck(@Request() req) {
