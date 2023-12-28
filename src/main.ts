@@ -17,15 +17,16 @@ async function bootstrap() {
   app.use(passport.session());
   // app.setGlobalPrefix('api')
 
-  app.enableCors({
-    credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    origin: [
-      'https://landmotors-client.onrender.com',
-      'https://landmotors-server.onrender.com',
-      // 'http://localhost:3001',
-    ],
-  });
+  // app.enableCors({
+  //   credentials: true,
+  //   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  //   origin: [
+  //     'https://landmotors-client.onrender.com',
+  //     'https://landmotors-server.onrender.com',
+  //     // 'http://localhost:3001',
+  //   ],
+  // });
+  app.enableCors()
 
   await app.listen(process.env.PORT || 3001);
 }
