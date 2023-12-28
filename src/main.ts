@@ -15,7 +15,7 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.setGlobalPrefix('api')
+  // app.setGlobalPrefix('api')
 
   app.enableCors({
     credentials: true,
