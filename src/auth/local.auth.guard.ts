@@ -1,14 +1,10 @@
 import {
   ExecutionContext,
-  HttpException,
-  HttpStatus,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthUserDto } from './auth.dto';
 @Injectable()
-export class LocalAuthGuard extends AuthGuard('local') {
+export class LocalAuthGuard extends AuthGuard('jwt') {
   async canActivate(context: ExecutionContext) {
     const result = (await super.canActivate(context)) as boolean;
     const request = context.switchToHttp().getRequest();

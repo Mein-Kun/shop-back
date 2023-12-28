@@ -21,8 +21,8 @@ async function bootstrap() {
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     origin: [
-      // 'https://landmotors-client.onrender.com',
-      'http://localhost:3001',
+      'https://landmotors-client.onrender.com',
+      // 'http://localhost:3001',
     ],
   });
 
