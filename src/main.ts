@@ -2,10 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 // import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
   app.use(
     session({
       secret: process.env.JWT_SECRET,
@@ -23,7 +27,7 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     origin: [
       'https://landmotors-client.onrender.com',
-      'https://landmotors-server.onrender.com',
+      // 'https://landmotors-server.onrender.com',
       // 'http://localhost:3001',
     ],
   });
