@@ -19,6 +19,7 @@ async function bootstrap() {
 
   app.enableCors({
     credentials: true,
+    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     origin: [
       'https://landmotors-client.onrender.com',
