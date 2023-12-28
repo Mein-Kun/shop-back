@@ -14,7 +14,10 @@ import { getJwtConfig } from './jwt/jwt.config';
 @Module({
   imports: [
     UsersModule,
-    PassportModule.register({ session: true }),
+    PassportModule.register({
+      session: true,
+      defaultStrategy: 'jwt'
+    }),
 		ConfigModule,
 		JwtModule.registerAsync({
 			imports: [ConfigModule],
@@ -24,7 +27,7 @@ import { getJwtConfig } from './jwt/jwt.config';
   ],
   providers: [
     AuthService,
-    LocalStrategy,
+    // LocalStrategy,
     SessionSerializer,
     JwtStrategy,
     {
