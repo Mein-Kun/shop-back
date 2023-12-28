@@ -8,8 +8,9 @@ import {
   UseGuards,
   Request,
   Get,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LocalAuthGuard } from 'src/auth/local.auth.guard';
 import { AuthenticatedGuard } from 'src/auth/authentificated.guard';
@@ -23,34 +24,36 @@ import {
 } from './types';
 import { AuthService } from 'src/auth/auth.service';
 import { Public } from 'src/auth/constant';
+import { AuthUserDto } from 'src/auth/auth.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UsersService, private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @ApiOkResponse({ type: SignupResponse })
   @Post('/singup')
-  @HttpCode(HttpStatus.CREATED)
+  @UsePipes(new ValidationPipe())
+  @HttpCode(200)
   @Header('Content-type', 'application/json')
-  createUser(@Body() CreateUserDto: CreateUserDto) {
-    return this.userService.create(CreateUserDto);
+  createUser(@Body() dto: CreateUserDto) {
+    return this.authService.create(dto);
   }
 
   @ApiBody({ type: LoginUserRequest })
   @ApiOkResponse({ type: LoginUserResponse })
+  @UsePipes(new ValidationPipe())
   @Post('/login')
   @UseGuards(LocalAuthGuard)
-  @HttpCode(HttpStatus.OK)
-  async login(@Request() req) {
-    return this.authService.login(req.user)
+  @HttpCode(200)
+  async login(@Body() dto: AuthUserDto) {
+    return this.authService.login(dto)
   }
 
   @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
   @Public()
   @UseGuards(AuthenticatedGuard)
-  // @UseInterceptors(LoggingInterceptor)
-  loginCheck(@Request() req) {
+  async loginCheck(@Request() req) {
     return req.user;
   }
 

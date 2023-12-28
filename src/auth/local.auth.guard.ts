@@ -6,18 +6,20 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthUserDto } from './auth.dto';
 @Injectable()
 export class LocalAuthGuard extends AuthGuard('local') {
   async canActivate(context: ExecutionContext) {
     const result = (await super.canActivate(context)) as boolean;
     const request = context.switchToHttp().getRequest();
     console.log(request);
+    console.log(result);
     await super.logIn(request);
     return result;
   }
 }
 // export class LocalAuthGuard extends AuthGuard('local') {
-//   handleRequest(err, user, _info, context, _status) {
+//   handleRequest(err: any, user: any, context: ExecutionContext) {
 //     const request = context.switchToHttp().getRequest();
 //     const { mobile, password } = request.body;
 //     if (err || !user) {

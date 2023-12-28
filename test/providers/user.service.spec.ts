@@ -8,11 +8,11 @@ import { SequelizeConfigService } from 'src/config/sequelizeConfig.service';
 import { UsersModule } from 'src/users/users.module';
 import { Users } from 'src/users/users.model';
 import * as bcrypt from 'bcrypt';
-import { UsersService } from 'src/users/users.service';
+import { AuthService } from 'src/auth/auth.service';
 
 describe('Users controller', () => {
   let app: INestApplication;
-  let userService: UsersService;
+  let authService: AuthService;
 
   beforeEach(async () => {
     const testModule: TestingModule = await Test.createTestingModule({
@@ -28,7 +28,7 @@ describe('Users controller', () => {
       ],
     }).compile();
 
-    userService = testModule.get<UsersService>(UsersService);
+    authService = testModule.get<AuthService>(AuthService);
     app = testModule.createNestApplication();
     await app.init();
   });
@@ -43,7 +43,7 @@ describe('Users controller', () => {
       email: 'test.357@gmail.com',
       password: 'Test357',
     };
-    const user = (await userService.create(newUser)) as Users;
+    const user = (await authService.create(newUser)) as unknown as Users;
 
     const passwordIsValid = await bcrypt.compare(
       newUser.password,

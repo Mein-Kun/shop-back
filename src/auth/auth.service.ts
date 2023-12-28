@@ -1,43 +1,104 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
+import { AuthUserDto } from './auth.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { Users } from 'src/users/users.model';
+import { compare, genSalt, hash } from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UsersService, private readonly jwtService:JwtService) {}
+  constructor(
+    private readonly userService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async validateUser(username: string, password: string) {
-    const user = await this.userService.findOne({ where: { username } });
-    
+  async validateUser(dto: AuthUserDto) {
+    const user = await this.userService.findOne({
+      where: { username: dto.username },
+    });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('User not found');
     }
 
-    const passwordValid = await bcrypt.compare(password, user.password);
+    const passwordValid = await compare(dto.password, user.password);
 
     if (!passwordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid pasword');
     }
+    console.log(user)
 
-    if ((user && passwordValid)) {
-      return user
-    }
-
-    return null;
-
-
-    // if (user && user.password === password) {
-    //   const { password, ...result } = user;
-    //   return result;
-    // }
-    // return null;
+    return user;
   }
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.userid };
+  
+  async login(dto: AuthUserDto) {
+    const user = await this.userService.findOne({
+      where: { username: dto.username },
+    });
+
+    // console.log(user)
+
+    const userValid = await this.validateUser(dto);
+
+    const tokens = await this.issueTokenPair(String(userValid.id));
+    console.log(tokens)
+
     return {
-      access_token: this.jwtService.sign(payload),
+      user: this.returnUserFields(user),
+      ...tokens,
+    };
+  }
+
+  async create(dto: CreateUserDto) {
+    const existingByUserName = await this.userService.findOne({
+      where: { username: dto.username },
+    });
+
+    const existingByEmail = await this.userService.findOne({
+      where: { email: dto.email },
+    });
+
+    if (existingByUserName) {
+      return { warningMessage: 'Пользователь с таким именем уже существует' };
+    }
+
+    if (existingByEmail) {
+      return { warningMessage: 'Пользователь с таким почтой уже существует' };
+    }
+
+    const solt = await genSalt(10);
+    const user = new Users({
+      username: dto.username,
+      passport: await hash(dto.password, solt),
+      email: dto.email,
+    });
+    await user.save();
+
+    const tokens = await this.issueTokenPair(String(user.id));
+
+    return {
+      user: this.returnUserFields(user),
+      ...tokens,
+    };
+  }
+
+  async issueTokenPair(id: string) {
+    const data = { id };
+
+    const accessToken = await this.jwtService.signAsync(data, {
+      expiresIn: '1d',
+    });
+
+    return { accessToken };
+  }
+
+  returnUserFields(user: Users) {
+    return {
+      id: user.id,
+      username: user.username,
+      password: user.password,
+      email: user.email,
     };
   }
 }
