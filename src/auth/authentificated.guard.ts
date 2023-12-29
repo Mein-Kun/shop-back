@@ -6,7 +6,6 @@ export class AuthenticatedGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    console.log(request)
     return request.isAuthenticated();
     // return true;
   }

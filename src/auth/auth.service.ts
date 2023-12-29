@@ -27,7 +27,6 @@ export class AuthService {
     if (!passwordValid) {
       throw new UnauthorizedException('Invalid pasword');
     }
-    // console.log(user)
 
     return user;
   }
@@ -36,8 +35,6 @@ export class AuthService {
     const user = await this.userService.findOne({
       where: { username: dto.username },
     });
-
-    // console.log(user)
 
     const userValid = await this.validateUser(dto);
 
