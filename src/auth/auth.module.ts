@@ -27,9 +27,9 @@ import { getJwtConfig } from './jwt/jwt.config';
   ],
   providers: [
     AuthService,
-    // LocalStrategy,
+    LocalStrategy,
     SessionSerializer,
-    JwtStrategy,
+    // JwtStrategy,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
