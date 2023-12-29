@@ -9,7 +9,7 @@ import {
 // import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   app.use(
     session({
       secret: process.env.JWT_SECRET,
@@ -17,8 +17,8 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
-  var cors = require('cors')
-  app.use(cors())
+  // var cors = require('cors')
+  // app.use(cors())
   app.use(passport.initialize());
   app.use(passport.session());
   // app.setGlobalPrefix('api')
@@ -36,6 +36,6 @@ async function bootstrap() {
   // });
   // app.enableCors()
 
-  await app.listen(process.env.PORT || 3001);
+  await app.listen(process.env.PORT || 3001, function () {console.log('CORS-enabled web server listening on port 80')});
 }
 bootstrap();
