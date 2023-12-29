@@ -19,16 +19,16 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(function(_req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://landmotors-client.onrender.com"); // Update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+  // app.use(function(_req, res, next) {
+  //   res.header("Access-Control-Allow-Origin", "https://landmotors-client.onrender.com"); // Update to match the domain you will make the request from
+  //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  //   next();
+  // });
   // app.setGlobalPrefix('api')
 
   app.enableCors({
     credentials: true,
-    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
+    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, Access-Control-Allow-Origin, Access-Control-Allow-Headers',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     origin: [
       'https://landmotors-client.onrender.com',
