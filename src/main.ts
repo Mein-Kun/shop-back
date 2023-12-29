@@ -19,6 +19,11 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(function(_req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://landmotors-client.onrender.com"); // Update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
   // app.setGlobalPrefix('api')
 
   app.enableCors({
