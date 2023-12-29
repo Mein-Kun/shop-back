@@ -9,10 +9,10 @@ import {
 // import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   app.use(
     session({
-      secret: process.env.JWT_SECRET,
+      secret: `${process.env.JWT_SECRET}`,
       resave: false,
       saveUninitialized: false,
     }),
