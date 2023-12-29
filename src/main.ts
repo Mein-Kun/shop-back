@@ -31,8 +31,8 @@ async function bootstrap() {
     allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, Access-Control-Allow-Origin, Access-Control-Allow-Headers',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     origin: [
-      'https://landmotors-client.onrender.com',
-      // 'https://landmotors-server.onrender.com',
+      // 'https://landmotors-client.onrender.com',
+      'https://landmotors-server.onrender.com',
       // 'http://localhost:3001',
     ],
   });
