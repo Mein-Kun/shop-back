@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
+import { env } from 'process';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -17,7 +18,7 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
-  console.log(`${process.env.JWT_SECRET}`)
+  console.log(process.env.JWT_SECRET)
   // var cors = require('cors')
   // app.use(cors())
   app.use(passport.initialize());
