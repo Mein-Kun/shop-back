@@ -13,12 +13,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(
     session({
-      secret: `${process.env.JWT_SECRET}`,
-      resave: false,
-      saveUninitialized: false,
+      secret: process.env.JWT_SECRET,
+      resave: true,
+      saveUninitialized: true,
     }),
   );
-  console.log(`${process.env.JWT_SECRET}`)
+  console.log(process.env.JWT_SECRET);
   // var cors = require('cors')
   // app.use(cors())
   app.use(passport.initialize());
@@ -27,7 +27,8 @@ async function bootstrap() {
 
   app.enableCors({
     credentials: true,
-    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization, Observe',
+    allowedHeaders:
+      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization, Observe',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     origin: true,
     // origin: [
@@ -38,6 +39,8 @@ async function bootstrap() {
   });
   // app.enableCors()
 
-  await app.listen(process.env.PORT || 3001, function () {console.log('CORS-enabled web server listening on port 3001')});
+  await app.listen(process.env.PORT || 3001, function () {
+    console.log('CORS-enabled web server listening on port 3001');
+  });
 }
 bootstrap();
