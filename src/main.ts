@@ -14,11 +14,10 @@ async function bootstrap() {
   app.use(
     session({
       secret: process.env.JWT_SECRET,
-      resave: true,
-      saveUninitialized: true,
+      resave: false,
+      saveUninitialized: false,
     }),
   );
-  console.log(process.env.JWT_SECRET);
   // var cors = require('cors')
   // app.use(cors())
   app.use(passport.initialize());
