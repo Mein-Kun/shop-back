@@ -27,7 +27,7 @@ export class AuthService {
     if (!passwordValid) {
       throw new UnauthorizedException('Invalid pasword');
     }
-    console.log(user)
+    // console.log(user)
 
     return user;
   }

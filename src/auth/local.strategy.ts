@@ -7,7 +7,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { AuthUserDto } from './auth.dto';
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalStrategy extends PassportStrategy(Strategy, "jwt") {
   constructor(private moduleRef: ModuleRef, private readonly authService: AuthService) {
     super({
       passReqToCallback: true,
@@ -21,6 +21,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException();
     }
+    return user
   }
 
   //   async validate(dto: AuthUserDto): Promise<any> {
