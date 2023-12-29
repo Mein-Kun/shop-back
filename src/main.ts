@@ -13,12 +13,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(
     session({
-      secret: process.env.JWT_SECRET,
+      secret: `${process.env.JWT_SECRET}`,
       resave: false,
       saveUninitialized: false,
     }),
   );
-  console.log(process.env.JWT_SECRET)
+  console.log(`${process.env.JWT_SECRET}`)
   // var cors = require('cors')
   // app.use(cors())
   app.use(passport.initialize());
