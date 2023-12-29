@@ -5,6 +5,7 @@ import { ShoppingCardService } from './shopping-card.service';
 import { ShoppingCard } from './shopping-card.modal';
 import { UsersModule } from 'src/users/users.module';
 import { AvtoPartsModule } from '../avto-parts/avto-parts.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { AvtoPartsModule } from '../avto-parts/avto-parts.module';
     AvtoPartsModule,
   ],
   controllers: [ShoppingCardController],
-  providers: [ShoppingCardService],
+  providers: [ShoppingCardService, JwtService],
   exports: [ShoppingCardService],
 })
 export class ShoppingCardModule {}
