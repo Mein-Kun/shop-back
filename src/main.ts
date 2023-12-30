@@ -5,15 +5,15 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(
-    session({
-      secret: process.env.JWT_SECRET,
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(
+  //   session({
+  //     secret: process.env.JWT_SECRET,
+  //     resave: false,
+  //     saveUninitialized: false,
+  //   }),
+  // );
+  // app.use(passport.initialize());
+  // app.use(passport.session());
   // app.setGlobalPrefix('api')
 
   app.enableCors({
@@ -29,8 +29,6 @@ async function bootstrap() {
     // ],
   });
 
-  await app.listen(process.env.PORT || 3001, function () {
-    console.log('CORS-enabled web server listening on port 3001');
-  });
+  await app.listen(process.env.PORT || 3001);
 }
 bootstrap();
