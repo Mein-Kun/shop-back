@@ -10,18 +10,12 @@ import { ShoppingCardModule } from './shopping-card/shopping-card.module';
 import { PaymentModule } from './payment/payment.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { JwtModule } from '@nestjs/jwt';
-import { getJwtConfig } from './auth/jwt/jwt.config';
 
 @Module({
   imports: [
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       useClass: SequelizeConfigService,
-    }),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: getJwtConfig,
     }),
     ConfigModule.forRoot({
       load: [databaseConfig],

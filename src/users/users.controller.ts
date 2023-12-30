@@ -1,15 +1,12 @@
 import {
   Controller,
   Header,
-  HttpStatus,
   Post,
   HttpCode,
   Body,
   UseGuards,
   Request,
   Get,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LocalAuthGuard } from 'src/auth/local.auth.guard';
@@ -22,36 +19,33 @@ import {
   LogoutUserResponse,
   SignupResponse,
 } from './types';
-import { AuthService } from 'src/auth/auth.service';
-import { Public } from 'src/auth/constant';
-import { AuthUserDto } from 'src/auth/auth.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly UsersService: UsersService) {}
 
   @ApiOkResponse({ type: SignupResponse })
   @Post('/singup')
-  @UsePipes(new ValidationPipe())
+  // @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Header('Content-type', 'application/json')
   createUser(@Body() dto: CreateUserDto) {
-    return this.authService.create(dto);
+    return this.UsersService.create(dto);
   }
 
   @ApiBody({ type: LoginUserRequest })
   @ApiOkResponse({ type: LoginUserResponse })
-  @UsePipes(new ValidationPipe())
+  // @UsePipes(new ValidationPipe())
   @Post('/login')
   @UseGuards(LocalAuthGuard)
   @HttpCode(200)
-  async login(@Body() username: string, password: string) {
-    return this.authService.login(username, password)
+  login(@Request() req) {
+    return { user: req.user, msg: 'Logged in' };
   }
 
   @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
-  @Public()
   @UseGuards(AuthenticatedGuard)
   async loginCheck(@Request() req) {
     return req.user;
