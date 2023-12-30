@@ -13,16 +13,17 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(dto: AuthUserDto) {
+  async validateUser(username: string, password: string) {
+    console.log(username)
     const user = await this.userService.findOne({
-      where: { username: dto.username },
+      where: { username: username },
     });
 
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
-    const passwordValid = await compare(dto.password, user.password);
+    const passwordValid = await compare(password, user.password);
 
     if (!passwordValid) {
       throw new UnauthorizedException('Invalid pasword');
@@ -31,12 +32,12 @@ export class AuthService {
     return user;
   }
   
-  async login(dto: AuthUserDto) {
+  async login(username: string, password: string) {
     const user = await this.userService.findOne({
-      where: { username: dto.username },
+      where: { username: username },
     });
 
-    const userValid = await this.validateUser(dto);
+    const userValid = await this.validateUser(username, password);
 
     const tokens = await this.issueTokenPair(String(userValid.id));
     console.log(tokens)

@@ -14,10 +14,10 @@ export class LocalStrategy extends PassportStrategy(Strategy, "jwt") {
     });
   }
 
-  async validate(dto: AuthUserDto, request: Request): Promise<any> {
+  async validate(username: string, password: string, request: Request): Promise<any> {
     const contextId = ContextIdFactory.getByRequest(request);
     const authService = await this.moduleRef.resolve(AuthService, contextId);
-    const user = await authService.validateUser(dto);
+    const user = await authService.validateUser(username, password);
     if (!user) {
       throw new UnauthorizedException();
     }

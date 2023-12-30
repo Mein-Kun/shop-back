@@ -45,8 +45,8 @@ export class UsersController {
   @Post('/login')
   @UseGuards(LocalAuthGuard)
   @HttpCode(200)
-  async login(@Body() dto: AuthUserDto) {
-    return this.authService.login(dto)
+  async login(@Body() username: string, password: string) {
+    return this.authService.login(username, password)
   }
 
   @ApiOkResponse({ type: LoginCheckResponse })
