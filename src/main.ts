@@ -3,17 +3,18 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
 
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(
     session({
-      secret: process.env.JWT_SECRET,
+      secret: "erg34KD:SK*D.D))xfgh",
       resave: false,
       saveUninitialized: false,
     }),
   );
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(passport.initialize());
+  // app.use(passport.session());
   // app.setGlobalPrefix('api')
 
   app.enableCors({

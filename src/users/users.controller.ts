@@ -20,10 +20,15 @@ import {
   SignupResponse,
 } from './types';
 import { UsersService } from './users.service';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly UsersService: UsersService) {}
+  constructor(
+    private readonly UsersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   @ApiOkResponse({ type: SignupResponse })
   @Post('/singup')
@@ -34,19 +39,20 @@ export class UsersController {
     return this.UsersService.create(dto);
   }
 
-  @ApiBody({ type: LoginUserRequest })
-  @ApiOkResponse({ type: LoginUserResponse })
+  // @ApiBody({ type: LoginUserRequest })
+  // @ApiOkResponse({ type: LoginUserResponse })
   // @UsePipes(new ValidationPipe())
   @Post('/login')
   @UseGuards(LocalAuthGuard)
   @HttpCode(200)
-  login(@Request() req) {
-    return { user: req.user, msg: 'Logged in' };
+  async login(@Request() req) {
+    return this.authService.login(req.user);
   }
 
-  @ApiOkResponse({ type: LoginCheckResponse })
+  // @ApiOkResponse({ type: LoginCheckResponse })
   @Get('/login-check')
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(JwtAuthGuard)
+  // @UseGuards(AuthenticatedGuard)
   loginCheck(@Request() req) {
     return req.user;
   }
