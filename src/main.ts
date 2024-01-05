@@ -13,8 +13,8 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
-  // app.use(passport.initialize());
-  // app.use(passport.session());
+  app.use(passport.initialize());
+  app.use(passport.session());
   // app.setGlobalPrefix('api')
 
   app.enableCors({

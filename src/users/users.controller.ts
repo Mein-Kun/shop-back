@@ -18,6 +18,7 @@ import {
 import { UsersService } from './users.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { AuthenticatedGuard } from 'src/auth/authentificated.guard';
 
 @Controller('users')
 export class UsersController {
@@ -41,7 +42,7 @@ export class UsersController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('/login-check')
   @HttpCode(200)
   loginCheck(@Request() req) {
