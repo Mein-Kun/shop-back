@@ -49,7 +49,7 @@ export class UsersService {
     console.log(hashedPassword)
     const user = new Users({
       username: dto.username,
-      passport: hashedPassword,
+      password: hashedPassword,
       email: dto.email,
     });
     return user.save();
