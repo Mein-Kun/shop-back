@@ -28,12 +28,15 @@ export class UsersService {
   //   return user;
   // }
 
-  create(dto: CreateUserDto) {
-    const existingByUserName = this.userModel.findOne({
+  async create(
+    dto: CreateUserDto,
+  ): Promise<Users | { warningMessage: string }> {
+    const user = new Users();
+    const existingByUserName = await this.userModel.findOne({
       where: { username: dto.username },
     });
 
-    const existingByEmail = this.userModel.findOne({
+    const existingByEmail = await this.userModel.findOne({
       where: { email: dto.email },
     });
 
@@ -45,13 +48,13 @@ export class UsersService {
       return { warningMessage: 'Пользователь с таким почтой уже существует' };
     }
 
-    const hashedPassword = bcrypt.hash(dto.password, 10);
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
     console.log(hashedPassword)
-    const user = new Users({
-      username: dto.username,
-      password: hashedPassword,
-      email: dto.email,
-    });
+
+    user.username = dto.username
+    user.password = hashedPassword
+    user.email = dto.email
+
     return user.save();
   }
 
