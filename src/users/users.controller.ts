@@ -10,12 +10,8 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LocalAuthGuard } from 'src/auth/local.auth.guard';
-import { AuthenticatedGuard } from 'src/auth/authentificated.guard';
-import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import { ApiOkResponse } from '@nestjs/swagger';
 import {
-  LoginCheckResponse,
-  LoginUserRequest,
-  LoginUserResponse,
   LogoutUserResponse,
   SignupResponse,
 } from './types';
@@ -32,27 +28,22 @@ export class UsersController {
 
   @ApiOkResponse({ type: SignupResponse })
   @Post('/singup')
-  // @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Header('Content-type', 'application/json')
   createUser(@Body() dto: CreateUserDto) {
     return this.UsersService.create(dto);
   }
 
-  // @ApiBody({ type: LoginUserRequest })
-  // @ApiOkResponse({ type: LoginUserResponse })
-  // @UsePipes(new ValidationPipe())
-  @Post('/login')
   @UseGuards(LocalAuthGuard)
+  @Post('/login')
   @HttpCode(200)
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
 
-  // @ApiOkResponse({ type: LoginCheckResponse })
-  @Get('/login-check')
   @UseGuards(JwtAuthGuard)
-  // @UseGuards(AuthenticatedGuard)
+  @Get('/login-check')
+  @HttpCode(200)
   loginCheck(@Request() req) {
     return req.user;
   }
