@@ -19,11 +19,12 @@ import { UsersService } from './users.service';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AuthenticatedGuard } from 'src/auth/authentificated.guard';
+import { access } from 'fs';
 
 @Controller('users')
 export class UsersController {
   constructor(
-    private readonly UsersService: UsersService,
+    private readonly usersService: UsersService,
     private readonly authService: AuthService,
   ) {}
 
@@ -32,7 +33,7 @@ export class UsersController {
   @HttpCode(200)
   @Header('Content-type', 'application/json')
   createUser(@Body() dto: CreateUserDto) {
-    return this.UsersService.create(dto);
+    return this.usersService.create(dto);
   }
 
   @UseGuards(LocalAuthGuard)
@@ -42,10 +43,10 @@ export class UsersController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthenticatedGuard)
   @Get('/login-check')
-  loginCheck(@Request() req) {
-    return req.user.dataValues;
+  async loginCheck(@Request() req) {
+    return req.user;
   }
 
   @ApiOkResponse({ type: LogoutUserResponse })
