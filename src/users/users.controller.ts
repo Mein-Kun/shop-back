@@ -42,11 +42,10 @@ export class UsersController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('/login-check')
-  @HttpCode(200)
   loginCheck(@Request() req) {
-    return req.user;
+    return req.user.dataValues;
   }
 
   @ApiOkResponse({ type: LogoutUserResponse })
