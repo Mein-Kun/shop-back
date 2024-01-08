@@ -44,9 +44,9 @@ export class UsersController {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Get('/login-check')
-  async loginCheck(@Request() req) {
-    return req.user;
+  @Post('/login-check')
+  async loginCheck(@Request() access_token) {
+    return this.authService.loginCheck(access_token);
   }
 
   @ApiOkResponse({ type: LogoutUserResponse })

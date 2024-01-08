@@ -20,16 +20,21 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { username: user.username, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
   }
 
   async loginCheck(access_token: any) {
+    // console.log(access_token)
     try {
       const decoded = this.jwtService.verify(access_token);
-      return decoded.user;
+      return {
+        id: decoded.user.id,
+        username: decoded.user.username,
+        email: decoded.user.email,
+      };
     } catch (err) {
       return err;
     }
