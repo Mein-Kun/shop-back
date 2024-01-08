@@ -31,7 +31,7 @@ export class AuthService {
     try {
       const decoded = this.jwtService.verify(access_token);
       return {
-        id: decoded.user.id,
+        userId: decoded.user.id,
         username: decoded.user.username,
         email: decoded.user.email,
       };
