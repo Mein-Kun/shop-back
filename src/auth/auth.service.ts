@@ -20,20 +20,27 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.id };
+    const payload = { username: user.dataValues.username, userId: user.dataValues.id, email: user.dataValues.email, };
     return {
+      user: {
+        userId: user.dataValues.id,
+        username: user.dataValues.username,
+        email: user.dataValues.email,
+      },
       access_token: this.jwtService.sign(payload),
     };
   }
 
-  async loginCheck(access_token: any) {
-    // console.log(access_token)
+  async loginCheck(access_token: string) {
+    console.log(access_token)
     try {
       const decoded = this.jwtService.verify(access_token);
       return {
-        userId: decoded.user.id,
-        username: decoded.user.username,
-        email: decoded.user.email,
+        user: {
+          userId: decoded.user.id,
+          username: decoded.user.username,
+          email: decoded.user.email,
+        },
       };
     } catch (err) {
       return err;

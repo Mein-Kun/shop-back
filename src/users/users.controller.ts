@@ -17,9 +17,7 @@ import {
 } from './types';
 import { UsersService } from './users.service';
 import { AuthService } from 'src/auth/auth.service';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AuthenticatedGuard } from 'src/auth/authentificated.guard';
-import { access } from 'fs';
 
 @Controller('users')
 export class UsersController {
@@ -45,6 +43,7 @@ export class UsersController {
 
   @UseGuards(AuthenticatedGuard)
   @Post('/login-check')
+  @HttpCode(200)
   async loginCheck(@Request() access_token) {
     return this.authService.loginCheck(access_token);
   }

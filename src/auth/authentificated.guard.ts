@@ -19,7 +19,6 @@ export interface HttpRequest extends Request {
 export class AuthenticatedGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<HttpRequest>()
-    console.log(request)
     return this.hasValidApiKey(request)
   }
 
