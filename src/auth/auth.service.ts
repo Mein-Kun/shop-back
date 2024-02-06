@@ -32,7 +32,6 @@ export class AuthService {
   }
 
   async loginCheck(access_token: string) {
-    console.log(access_token)
     try {
       const decoded = this.jwtService.verify(access_token);
       return {

@@ -32,7 +32,7 @@ export class ShoppingCardService {
     const user = await this.usersService.findOne({
       where: { username: addToCardDto.username },
     });
-    const part = await this.avtoPartsService.findOne(addToCardDto.partId);
+    const part = await this.avtoPartsService.findOnePart(addToCardDto.partId);
 
     card.userId = user.id;
     card.partId = part.id;

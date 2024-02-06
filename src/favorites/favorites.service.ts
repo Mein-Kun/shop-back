@@ -25,7 +25,7 @@ export class FavoritesService {
 		const user = await this.usersService.findOne({
       where: { id: addToCardDto.userId },
     });
-    const part = await this.avtoPartsService.findOne(addToCardDto.partId);
+    const part = await this.avtoPartsService.findOnePart(addToCardDto.partId);
 
 		favorit.userId = user.id;
     favorit.partId = part.id;

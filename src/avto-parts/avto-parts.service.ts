@@ -51,7 +51,7 @@ export class AvtoPartsService {
     });
   }
 
-  async findOne(id: number): Promise<AvtoParts> {
+  async findOnePart(id: number): Promise<AvtoParts> {
     return this.avtoPartsModel.findOne({
       where: { id },
     });

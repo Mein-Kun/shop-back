@@ -9,7 +9,7 @@ class AvtoParts {
   @ApiProperty({ example: faker.lorem.sentence(2) })
   car_brand: string;
 
-  @ApiProperty({ example: 12345 })
+  @ApiProperty({ example: '12345' })
   price: string;
 
   @ApiProperty({ example: faker.lorem.sentence(2) })
